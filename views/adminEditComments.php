@@ -35,7 +35,7 @@ $com = $_REQUEST['comment'];
                     </table>  
                     
                    
-                    
+                    <input type="hidden" name="role" value="<?php echo $_SESSION['role']; ?>"> 
                     <button class=" btn btn-danger btn-lg btn-block" type="submit" name="submit" value="DELETE" style="width: 120px; height: 100px">DELETE</button>
                     <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="CANCEL" style="width: 120px; height: 100px">CANCEL</button>
 

@@ -29,7 +29,7 @@
     <!-- Section: Social media -->
     <section class="mb-4">
       <!-- Facebook -->
-      <a href="" role="button">
+      <a href="https://www.facebook.com/groups/809842749738452" role="button">
         <img width="50px" height="50px" src="https://i.pinimg.com/originals/b3/26/b5/b326b5f8d23cd1e0f18df4c9265416f7.png" > 
       </a>
 
@@ -39,7 +39,7 @@
       </a>
 
       <!-- INSTA -->
-      <a href="" role="button">
+      <a href="https://www.instagram.com/sinspecter/" role="button">
         <img width="50px" height="50px" src="https://www.freepnglogos.com/uploads/instagram-logo-png-transparent-0.png" > 
       </a>
 

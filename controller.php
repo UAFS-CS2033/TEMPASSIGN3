@@ -80,7 +80,7 @@
             $controllers["POST"."ReadArticle"] = new ReadArticle();
             $controllers["GET"."ViewComments"] = new ViewComments();
             $controllers["POST"."ViewComments"] = new ViewComments();
-            
+            $controllers["GET"."search"] = new search();
 
 
             
@@ -92,35 +92,49 @@
         /******************************************************
          * Check Access restrictions for selected controller  *
          ******************************************************/
-            if($controller->getAccess()=='admin'){
-                if(!isset($_SESSION['loggedin'])){
-                    //*** Not Logged In ****/
-                    
+       
+         $role = $_SESSION['role'];
 
-                    $controller = $this->controllers["GET"."login"];
-                    
-                }else{
-                    if(!$_SESSION['role'] == 'admin'){
-                        $controller = $this->controllers["GET"."home"];
-                    }
-                }
+         if($controller->getAccess() == "admin"){
+            if(!isset($_SESSION['loggedin'])){
+                //*** Not Logged In ****/
 
+                $controller = $this->controllers["GET"."login"];
                 
-                    
+            }elseif ($role != "admin") {
+                $controller = $this->controllers["GET"."login"];
                 
-
             }
+        }
+        
+        
 
-            if($controller->getAccess()=='author'){
-                if(!isset($_SESSION['loggedin'])){
-                    //*** Not Logged In ****/
-                    
+        if($controller->getAccess() == "author"){
+           if(!isset($_SESSION['loggedin'])){
+               //*** Not Logged In ****/
 
-                    $controller = $this->controllers["GET"."login"];
-                    
-                }   
+               $controller = $this->controllers["GET"."login"];
+               
+           }elseif ((isset($role) != "author") || (isset($role) != "admin")) {
+              $controller = $this->controllers["GET"."home"];
+               
+           }
+       }
+       
 
-            }
+       if($controller->getAccess() == "user"){
+          if(!isset($_SESSION['loggedin'])){
+              //*** Not Logged In ****/
+
+              $controller = $this->controllers["GET"."login"];
+              
+          }elseif ((isset($role)  != "admin") || (isset($role)   != "author") || (isset($role)    != "user")) {
+              $controller = $this->controllers["GET"."login"];
+              
+          }
+      }
+                
+            
             return $controller;
         }
 

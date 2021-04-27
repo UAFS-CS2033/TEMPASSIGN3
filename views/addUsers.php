@@ -20,6 +20,15 @@
                             </div>
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control mb-3" id="email" name="email" placeholder="Enter your Email Address" required>
+                            
+                            <div class="dropdown">
+                            <label for="role">Choose your role:</label>
+                            <select class="btn btn-primary dropdown-toggle" type="button" id="role" name="role">
+                            <option value="user">User</option>
+                            <option value="author">Author</option>
+                            </select>
+                            </div>
+
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control mb-3" id="username" name="username" placeholder="Enter your Username" required>
                             <label for="passwd" class="form-label">Password</label>

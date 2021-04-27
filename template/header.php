@@ -53,9 +53,9 @@
       
       <a class="btn btn-primary <?php echo $class; ?>" href="controller.php?page=login"><?php echo $status; ?></a> 
       
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form class="d-flex" action="controller.php" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+        <button class="btn btn-outline-success" type="submit" name="page" value="search">Search</button>
       </form>
   </div>  
   </div>

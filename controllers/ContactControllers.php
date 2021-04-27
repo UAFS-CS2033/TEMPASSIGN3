@@ -21,13 +21,14 @@
             $passwd=$_POST['passwd'];
             $fname = $_POST['fname'];
             $lname = $_POST['lname'];
+            $role = $_POST['role'];
             $users = new Users();
             $users->setUsername($username);
             $users->setEmail($email);
             $users->setPasswd($passwd);
             $users->setFName($fname);
             $users->setLName($lname); 
-            $users->setRole('author');                    
+            $users->setRole($role);                    
             $contactDAO = new UsersDAO();
             $contactDAO->addContact($users);
             header("Location: controller.php?page=login");
@@ -53,6 +54,7 @@
         }
 
         function processPOST(){
+            session_start();
             
  
             $username=$_POST['username'];
@@ -65,8 +67,8 @@
                 $nextView="Location: controller.php?page=login";
             }else{
                 
-                $_SESSION['id']=$found['userID'];
-                $_SESSION['role']=$found['role'];
+                $_SESSION['id']=$id;
+                $_SESSION['role']=$role;
                 $_SESSION['loggedin']='TRUE';
                
                 $nextView="Location: controller.php?page=home";
@@ -283,9 +285,7 @@
             $content = $_POST['articleContent'];
             $title = $_POST['title'];
             $image = $_POST['image'];
-            $username = $_POST['username'];
-            $userDAO = new UsersDAO();
-            $authID = $userDAO->getUserID($username);
+            $authID = $_SESSION['id'];
             $topicDAO = new TopicsDAO();
             $topicID = $topicDAO->getTopicID($topicName);
             if($topicID==null){
@@ -301,7 +301,7 @@
         }
 
         function getAccess(){
-            return "PROTECTED";
+            return "author";
 
         }
     }
@@ -309,7 +309,7 @@
         function processGET(){
             $articleDAO = new ArticlesDAO();
             //Still trying to figure out how to get the userID
-            $authorID = 1;
+            $authorID = $_SESSION['id'];
             $authorArticles = $articleDAO->getAuthorArticles($authorID);
             $_REQUEST['authorArticles']=$authorArticles;
 
@@ -324,7 +324,7 @@
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "author";
 
         }
     }
@@ -345,7 +345,7 @@
             $topicDAO = new TopicsDAO();
             $topicID = $topicDAO->findTopic($topic);
             $_REQUEST['topicID']=$topicID;
-            return "views/AuthorEditArticle.php";
+            return "views/EditArticle.php";
 
         }
 
@@ -372,7 +372,7 @@
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "author";
 
         }
     }
@@ -397,7 +397,7 @@
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
 
     }
@@ -420,7 +420,7 @@
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
     }
 
@@ -449,6 +449,7 @@ class AdminEditArticle implements ControllerAction{
 
     function processPOST(){
         $submit = $_POST['submit'];
+        $role = $_POST['role'];
         $articleDAO = new ArticlesDAO();
 
 
@@ -463,6 +464,7 @@ class AdminEditArticle implements ControllerAction{
             $article->setArtId($_POST['id']);
             $articleDAO->updateArticle($article);
         }else if($submit == 'COMMENT'){
+
             $id = $_POST['id'];
             
             header("Location: controller.php?page=adminEditComments&id=$id");
@@ -470,9 +472,15 @@ class AdminEditArticle implements ControllerAction{
 
         }
 
+        if($role == 'author'){
+            header("Location: controller.php?page=author");
+            exit;
+        }else{
+            header("Location: controller.php?page=searchArticle");
+            exit;
+        }
+        
 
-        header("Location: controller.php?page=searchArticle");
-        exit;
 
         
 
@@ -495,6 +503,8 @@ class AdminEditArticle implements ControllerAction{
 
         function processPOST(){
            $submit = $_POST['submit'];
+           $role = $_POST['role'];
+           
            
            if($submit =='DELETE'){
                $commentDAO = new CommentsDAO();
@@ -504,8 +514,20 @@ class AdminEditArticle implements ControllerAction{
                
 
            }
-           header("Location: controller.php?page=searchArticle");
-           exit;
+
+           if($role == 'author'){
+
+                header("Location: controller.php?page=author");
+                exit;
+           }else{
+                header("Location: controller.php?page=searchArticle");
+                exit;
+
+           }
+           
+
+
+
         }
 
         function getAccess(){
@@ -528,7 +550,7 @@ class AdminEditArticle implements ControllerAction{
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
 
     }
@@ -554,7 +576,7 @@ class AdminEditArticle implements ControllerAction{
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
 
     }
@@ -592,7 +614,7 @@ class AdminEditArticle implements ControllerAction{
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
 
     }
@@ -618,7 +640,7 @@ class AdminEditArticle implements ControllerAction{
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
 
     }
@@ -662,8 +684,28 @@ class AdminEditArticle implements ControllerAction{
         }
 
         function getAccess(){
-            return "PUBLIC";
+            return "admin";
         }
+
+    }
+    class search implements ControllerAction{
+
+        function processGET(){
+            $search = $_GET['search'];
+            $ArticlesDAO = new ArticlesDAO();
+            $found=$ArticlesDAO->Search($search);
+            $_REQUEST['found']=$found;
+
+            return "views/search.php";
+        }
+
+        function processPOST(){
+            return;
+    }
+
+        function getAccess(){
+            return "PUBLIC";
+        }      
 
     }
 

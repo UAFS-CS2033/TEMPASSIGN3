@@ -34,9 +34,6 @@
                             
                             <label for="image" class="form-label">Image:</label>
                             <input type="text" class="form-control mb-3" id="image" name="image" placeholder="Insert Image URL..." required>
-
-                            <label for="image" class="form-label">Sign:</label>
-                            <input type="text" class="form-control mb-3" id="username" name="username" placeholder="Sign with your username..." required>
                             
                             <button class="btn btn-primary" type="submit" name="page" value="ArtAdd">Submit</button>
                             

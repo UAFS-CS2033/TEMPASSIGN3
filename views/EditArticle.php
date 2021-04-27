@@ -3,7 +3,7 @@ var_dump($_REQUEST);
 $article = $_REQUEST['article'];
 $user = $_REQUEST['author'];
 $topic = $_REQUEST['topic'];
-
+var_dump($_SESSION);
 ?>
 
 
@@ -38,7 +38,7 @@ $topic = $_REQUEST['topic'];
 
 
                             </div>
-
+                            <input type="hidden" name="role" value="<?php echo $_SESSION['role'];?>">
                             <input type="hidden" name="id" value="<?php echo $article->getArtId();?>">
                             <input type="hidden" name="page" value="adminEditArticle">
                             <button class="btn btn-success" type="submit" name="submit" value="EDIT" style="width:200px; height: 100px;">Finish Edit</button>
